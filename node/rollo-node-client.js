@@ -1,11 +1,11 @@
 GetOpt = require('node-getopt');
 
 getOpt = new GetOpt([
-  ['c' , 'count=ARG' , 'number of pulses'],
-  [''  , 'pulse=ARG' , 'length of a pulse in ms'],
-  [''  , 'pause=ARG' , 'length of pause between 2 pulses in ms'],
-  ['p' , 'pin=ARG'   , 'pin to be toggled'],
-  ['h' , 'help'      , 'display this help']
+  ['c' , 'channel=ARG' , 'channel to be processed'],
+  ['u' , 'up'          , 'rollo shall go up'],
+  ['s' , 'stop'        , 'rollo shall stop'],
+  ['d' , 'down'        , 'rollo shall go down'],
+  ['h' , 'help'        , 'display this help']
 ]);
 
 // Use custom help template instead of default help
@@ -23,14 +23,32 @@ getOpt.bindHelp().parseSystem();
 
 console.log(getOpt.parsedOption);
 
+var channel = parseInt(getOpt.parsedOption.options.channel);
+if (isNaN(channel)) channel = 5;
+
 var rolloControl = require('./rollo-control.js');
 
-console.log('Selected Channel = ' + rolloControl.getSelectedChannel());
+function terminate() {
+	rolloControl.close(function() {
+		process.exit(0);
+	});
+}
 
-rolloControl.rolloUp(2);
+rolloControl.setup(function() {
+	if (getOpt.parsedOption.options.stop) {
+		rolloControl.rolloStop(channel, terminate);
+	}
+	else if (getOpt.parsedOption.options.up) {
+		rolloControl.rolloUp(channel, terminate);
+	}
+	else if (getOpt.parsedOption.options.down) {
+		rolloControl.rolloDown(channel, terminate);
+	}
+});
 
-rolloControl.rolloDown(4);
-
-rolloControl.rolloStop(5);
-
-console.log('Selected Channel = ' + rolloControl.getSelectedChannel());
+// setTimeout(function() {
+// 	//console.log("closing...");
+// 	rolloControl.close(function() {
+// 		process.exit(0);
+// 	});
+// }, 1000);
