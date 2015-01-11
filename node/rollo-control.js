@@ -1,10 +1,10 @@
-// var hardware = require('./rollo-simulated-platform.js');
-if (process.arch == 'arm') {
-	hardware = require('./rollo-rpi-platform.js');
-}
-else {
-	hardware = require('./rollo-simulated-platform.js');
-}
+var hardware = require('./rollo-rpi-platform.js');
+// if (process.arch == 'arm') {
+// 	hardware = require('./rollo-rpi-platform.js');
+// }
+// else {
+// 	hardware = require('./rollo-simulated-platform.js');
+// }
 
 exports.setup = function(callback) {
 	hardware.setup(function() {

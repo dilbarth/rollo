@@ -11,8 +11,7 @@ getOpt = new GetOpt([
 // Use custom help template instead of default help
 // [[OPTIONS]] is the placeholder for options list
 getOpt.setHelp(
-  "Usage: node toggle-to-ground.js [OPTION]\n" +
-  "Specified pin will be set to true on startup.\n" +
+  "Usage: node rollo-node-client.js [OPTION]\n" +
   "\n" +
   "[[OPTIONS]]\n"
 );

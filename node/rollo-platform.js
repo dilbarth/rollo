@@ -1,4 +1,11 @@
-var gpio = require('rpi-gpio');
+var gpio; // = require('rpi-gpio');
+if (process.arch == 'arm') {
+	gpio = require('rpi-gpio');
+}
+else {
+	console.log("Requiring simulated gpio!!!");
+	gpio = require('./rollo-sim-gpio.js');
+}
 
 var PIN_BTN_K1 = 11;
 var PIN_BTN_K2 = 13;
@@ -95,7 +102,7 @@ function rolloControl(pin, channel, callback)
 };
 
 function keyPress(pin, pressCount, callback) {
-	//console.log("keyPress - pin: " + pin + "  pressCount: " + pressCount);
+	console.log("keyPress - pin: " + pin + "  pressCount: " + pressCount);
 	
 	gpio.write(pin, 0, function(err) {
 		if (err) throw err;
