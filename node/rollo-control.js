@@ -1,4 +1,4 @@
-var hardware = require('./rollo-rpi-platform.js');
+var hardware = require('./rollo-platform.js');
 // if (process.arch == 'arm') {
 // 	hardware = require('./rollo-rpi-platform.js');
 // }
